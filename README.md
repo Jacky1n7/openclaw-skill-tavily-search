@@ -2,7 +2,7 @@
 
 # ⚡ Tavily 搜索 Skill（OpenClaw）
 
-**赛博霓虹风格的网页搜索能力，由 Tavily 驱动，面向 OpenClaw 多智能体/工具链使用。**
+**由 Tavily 驱动，面向 OpenClaw 多智能体/工具链使用。**
 
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-8A2BE2?style=for-the-badge)](https://docs.openclaw.ai)
 [![Tavily](https://img.shields.io/badge/Tavily-API-00E5FF?style=for-the-badge)](https://tavily.com)
@@ -38,8 +38,6 @@ printf 'TAVILY_API_KEY=你的TOKEN\n' >> ~/.openclaw/.env
 chmod 600 ~/.openclaw/.env
 ```
 
-> 安全提示：不要把 token 写进仓库、不要 commit。仓库已提供 `.gitignore` 防止误提交。
-
 ---
 
 ## 🚀 用法
@@ -64,7 +62,7 @@ python3 skill/scripts/tavily_search.py --query "OpenClaw 中文社区" --max-res
 python3 skill/scripts/tavily_search.py --query "multi-agent workflow" --max-results 5 --format brave
 ```
 
-### 3) 人类可读 Markdown 列表
+### 3) 可读 Markdown 列表
 
 ```bash
 python3 skill/scripts/tavily_search.py --query "OpenClaw" --max-results 5 --format md
