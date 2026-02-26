@@ -7,10 +7,19 @@
       <stop offset="1" stop-color="#060018"/>
     </linearGradient>
 
+    <!-- Animated neon gradient -->
     <linearGradient id="neon" x1="120" y1="60" x2="1080" y2="260" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#00E5FF"/>
-      <stop offset="0.5" stop-color="#8A2BE2"/>
-      <stop offset="1" stop-color="#FF2BD6"/>
+      <stop offset="0" stop-color="#00E5FF">
+        <animate attributeName="stop-color" values="#00E5FF;#8A2BE2;#FF2BD6;#00E5FF" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="0.5" stop-color="#8A2BE2">
+        <animate attributeName="stop-color" values="#8A2BE2;#FF2BD6;#00E5FF;#8A2BE2" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#FF2BD6">
+        <animate attributeName="stop-color" values="#FF2BD6;#00E5FF;#8A2BE2;#FF2BD6" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <animate attributeName="x1" values="120;260;120" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="1080;940;1080" dur="8s" repeatCount="indefinite"/>
     </linearGradient>
 
     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -25,17 +34,29 @@
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" stroke="#1A1640" stroke-width="1" opacity="0.6"/>
     </pattern>
+
+    <!-- Subtle scanline -->
+    <linearGradient id="scan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
   </defs>
 
   <rect width="1200" height="320" fill="url(#bg)"/>
   <rect width="1200" height="320" fill="url(#grid)" opacity="0.55"/>
 
+  <!-- Moving scanline -->
+  <rect x="0" y="-160" width="1200" height="160" fill="url(#scan)" opacity="0.9">
+    <animate attributeName="y" values="-160;320" dur="4.5s" repeatCount="indefinite"/>
+  </rect>
+
   <!-- Neon frame -->
   <rect x="60" y="48" width="1080" height="224" rx="22" stroke="url(#neon)" stroke-width="3" filter="url(#glow)" opacity="0.95"/>
 
   <!-- Accent lines -->
-  <path d="M90 110 C 280 40, 420 60, 560 110" stroke="#00E5FF" stroke-width="2" opacity="0.45"/>
-  <path d="M640 210 C 780 260, 920 260, 1110 190" stroke="#FF2BD6" stroke-width="2" opacity="0.35"/>
+  <path d="M90 110 C 280 40, 420 60, 560 110" stroke="#00E5FF" stroke-width="2" opacity="0.40"/>
+  <path d="M640 210 C 780 260, 920 260, 1110 190" stroke="#FF2BD6" stroke-width="2" opacity="0.30"/>
 
   <!-- Title -->
   <text x="120" y="150" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
@@ -45,15 +66,15 @@
 
   <text x="120" y="196" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
         font-size="20" fill="#A7B2FF" opacity="0.95">
-    Cyber utility • structured results • built for agentic workflows
+    structured web search • brave-like schema • ready for agent workflows
   </text>
 
   <!-- Right chip -->
   <g opacity="0.95" filter="url(#glow)">
-    <rect x="920" y="110" width="190" height="44" rx="14" fill="#0C0B2B" stroke="url(#neon)" stroke-width="2"/>
-    <text x="945" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+    <rect x="905" y="110" width="205" height="44" rx="14" fill="#0C0B2B" stroke="url(#neon)" stroke-width="2"/>
+    <text x="930" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
           font-size="16" fill="#EAF7FF">
-      TAVILY_API
+      TAVILY_SEARCH
     </text>
   </g>
 

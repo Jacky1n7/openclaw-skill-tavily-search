@@ -57,7 +57,17 @@ chmod 600 ~/.openclaw/.env
 
 ## ⚡ 一键安装（推荐）
 
-> 适合：你只想把 skill 装到本机 OpenClaw workspace 里直接用。
+> 目标：用户尽量少操作，直接装进 OpenClaw 的 skills 目录即可使用。
+
+### 方式 0（最便携）：ClawHub 一行安装（推荐分发方式）
+
+当这个 skill 发布到 ClawHub 后，用户可以直接运行：
+
+```bash
+clawhub install <slug>
+```
+
+> 说明：`<slug>` 会在我们完成发布后确定（比如 `tavily-search` 或 `tavily-web-search`）。
 
 ### 方式 A：下载打包产物（`.skill`）并解压到 workspace
 
@@ -123,6 +133,8 @@ python3 skill/scripts/tavily_search.py --query "OpenClaw" --max-results 5 --form
 ---
 
 ## 📦 打包产物（可分发）
+
+> 备注：`.skill` 本质上是一个 zip bundle，适合发到群里/邮件里/Release 里。
 
 仓库 `dist/` 下包含：
 
