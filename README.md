@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/banner.svg" alt="Tavily Search Skill Banner" width="100%" />
+
 # ⚡ Tavily 搜索 Skill（OpenClaw）
 
 **由 Tavily 驱动，面向 OpenClaw 多智能体/工具链使用。**
@@ -9,6 +11,19 @@
 [![Python](https://img.shields.io/badge/Python-3.x-FF2BD6?style=for-the-badge)](https://www.python.org/)
 
 </div>
+
+---
+
+## 📌 目录导航
+
+- [✨ 这是什么？](#-这是什么)
+- [🔑 配置（必需）](#-配置必需)
+- [⚡ 一键安装（推荐）](#-一键安装推荐)
+- [🚀 用法](#-用法)
+- [📦 打包产物（可分发）](#-打包产物可分发)
+- [🧪 输出示例](#-输出示例)
+- [🦐 备注（建议实践）](#-备注建议实践)
+- [License](#license)
 
 ---
 
@@ -36,6 +51,43 @@
 mkdir -p ~/.openclaw
 printf 'TAVILY_API_KEY=你的TOKEN\n' >> ~/.openclaw/.env
 chmod 600 ~/.openclaw/.env
+```
+
+---
+
+## ⚡ 一键安装（推荐）
+
+> 适合：你只想把 skill 装到本机 OpenClaw workspace 里直接用。
+
+### 方式 A：下载打包产物（`.skill`）并解压到 workspace
+
+```bash
+# 1) 下载
+curl -L \
+  -o /tmp/tavily-search.skill \
+  https://raw.githubusercontent.com/Jacky1n7/openclaw-skill-tavily-search/main/dist/tavily-search.skill
+
+# 2) 安装到 OpenClaw workspace（目录不存在会自动创建）
+mkdir -p ~/.openclaw/workspace/skills/tavily-search
+unzip -o /tmp/tavily-search.skill -d ~/.openclaw/workspace/skills/tavily-search
+
+# 3) 验证
+python3 ~/.openclaw/workspace/skills/tavily-search/scripts/tavily_search.py --query "OpenClaw" --max-results 3 --format md
+```
+
+### 方式 B：git clone（适合想改代码/发 PR）
+
+```bash
+mkdir -p ~/.openclaw/workspace/skills
+cd ~/.openclaw/workspace/skills
+
+git clone https://github.com/Jacky1n7/openclaw-skill-tavily-search.git tavily-search-repo
+
+# 只把 skill 目录放到 skills/tavily-search
+rm -rf tavily-search
+cp -R tavily-search-repo/skill tavily-search
+
+python3 tavily-search/scripts/tavily_search.py --query "OpenClaw" --max-results 3 --format md
 ```
 
 ---
