@@ -64,10 +64,10 @@ chmod 600 ~/.openclaw/.env
 当这个 skill 发布到 ClawHub 后，用户可以直接运行：
 
 ```bash
-clawhub install <slug>
+clawhub install openclaw-tavily-search
 ```
 
-> 说明：`<slug>` 会在我们完成发布后确定（比如 `tavily-search` 或 `tavily-web-search`）。
+> 提示：首次使用 ClawHub 可能需要先 `clawhub login`。
 
 ### 方式 A：下载打包产物（`.skill`）并解压到 workspace
 
