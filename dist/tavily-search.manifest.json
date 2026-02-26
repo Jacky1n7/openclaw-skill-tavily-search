@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "490da2ad7c928df0418dd113b1d35544865c413db62e1f820a80afa0c6857dba",
+      "bytes": 1517
+    },
+    {
+      "path": "scripts/tavily_search.py",
+      "sha256": "a590bf60b0b7bc9ea03bf7e8b32b143f4add1f07b9c17f222a0c00ab5b505472",
+      "bytes": 4297
+    }
+  ]
+}
