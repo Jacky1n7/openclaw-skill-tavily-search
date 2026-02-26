@@ -64,10 +64,17 @@ chmod 600 ~/.openclaw/.env
 当这个 skill 发布到 ClawHub 后，用户可以直接运行：
 
 ```bash
+# 首次使用需要登录
+clawhub login
+
+# 默认：安装到“当前目录”的 skills/openclaw-tavily-search
 clawhub install openclaw-tavily-search
+
+# 推荐：显式安装到 OpenClaw workspace（更不容易装错位置）
+clawhub --workdir ~/.openclaw/workspace --dir skills install openclaw-tavily-search
 ```
 
-> 提示：首次使用 ClawHub 可能需要先 `clawhub login`。
+> 提示：如果你已经在 `~/.openclaw/workspace` 目录下，也可以直接运行默认安装命令。
 
 ### 方式 A：下载打包产物（`.skill`）并解压到 workspace
 
