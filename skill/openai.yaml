@@ -1,0 +1,8 @@
+interface:
+  display_name: Tavily Search
+  short_description: Search the web with Tavily Search API
+  homepage: https://docs.tavily.com/documentation
+
+runtime:
+  required_env:
+    - TAVILY_API_KEY
