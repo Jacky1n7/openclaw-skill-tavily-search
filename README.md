@@ -182,3 +182,7 @@ rm -f dist/tavily-search.skill
 ## License
 
 MIT
+
+## Download History
+
+[![Download History](https://skill-history.com/chart/jacky1n7/openclaw-tavily-search.svg)](https://skill-history.com/jacky1n7/openclaw-tavily-search)
