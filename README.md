@@ -1,184 +1,128 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="Tavily Search Skill Banner" width="100%" />
+<img src="assets/banner.svg" alt="Tavily Search Agent Skill" width="100%" />
 
-# ⚡ Tavily 搜索 Skill（OpenClaw）
+# Tavily Search Agent Skill
 
-**由 Tavily 驱动，面向 OpenClaw 多智能体/工具链使用。**
+**Portable web search for OpenClaw and other Agent Skills-compatible agents.**
 
-[![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-8A2BE2?style=for-the-badge)](https://docs.openclaw.ai)
-[![Tavily](https://img.shields.io/badge/Tavily-API-00E5FF?style=for-the-badge)](https://tavily.com)
-[![Python](https://img.shields.io/badge/Python-3.x-FF2BD6?style=for-the-badge)](https://www.python.org/)
+[![ClawHub](https://img.shields.io/badge/ClawHub-100k%2B_downloads-2ea44f?style=flat-square)](https://clawhub.ai/jacky1n7/skills/openclaw-tavily-search)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-portable-0969da?style=flat-square)](https://agentskills.io)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/source_license-MIT-6e7781?style=flat-square)](LICENSE)
+
+通过 Tavily API 为 Agent 提供结构化网页检索。保留 OpenClaw 原生安装体验，同时遵循
+Agent Skills 开放格式，可被其他兼容客户端复用。
 
 </div>
 
----
+## Why this skill
 
-## 📌 目录导航
+- Returns compact URLs and snippets instead of forcing an agent to parse a search page.
+- Supports stable JSON for tool chains and Markdown for human review.
+- Covers general, news, and finance search with time and domain filters.
+- Uses only the Python standard library; `certifi` is an optional TLS fallback when already installed.
+- Keeps successful output on stdout and actionable diagnostics on stderr.
+- Never disables TLS verification and never writes the Tavily API key to output.
 
-- [✨ 这是什么？](#-这是什么)
-- [🔑 配置（必需）](#-配置必需)
-- [⚡ 一键安装（推荐）](#-一键安装推荐)
-- [🚀 用法](#-用法)
-- [📦 打包产物（可分发）](#-打包产物可分发)
-- [🧪 输出示例](#-输出示例)
-- [🦐 备注（建议实践）](#-备注建议实践)
-- [License](#license)
+Search results are discovery data, not final evidence. The skill instructs agents to open relevant
+sources, prefer primary material, and cite the pages that support their claims.
 
----
+## Install
 
-## ✨ 这是什么？
+### OpenClaw
 
-这是一个 **OpenClaw Skill**，通过 **Tavily Search API** 实现网页搜索。
-
-适合在你不想使用 Brave Search 的场景下，作为可替代的“联网搜索”能力：输出结构化结果（title/url/snippet），便于下游 Agent 做引用、总结、写作与审稿。
-
----
-
-## 🔑 配置（必需）
-
-你需要提供 Tavily API Key（二选一）：
-
-1) 环境变量：
-- `TAVILY_API_KEY=...`
-
-2) 本地配置文件（推荐 OpenClaw 主机使用）：
-- `~/.openclaw/.env`
-
-示例：
+Install the current ClawHub package:
 
 ```bash
-mkdir -p ~/.openclaw
-printf 'TAVILY_API_KEY=你的TOKEN\n' >> ~/.openclaw/.env
-chmod 600 ~/.openclaw/.env
+openclaw skills install @jacky1n7/openclaw-tavily-search
 ```
 
----
+[View the package on ClawHub](https://clawhub.ai/jacky1n7/skills/openclaw-tavily-search)
 
-## ⚡ 一键安装（推荐）
+### Other compatible agents
 
-> 目标：用户尽量少操作，直接装进 OpenClaw 的 skills 目录即可使用。
+The distributable `tavily-search/` directory follows the [Agent Skills specification](https://agentskills.io/specification).
+Use the client's normal GitHub/Agent Skills installer and select `tavily-search`, or place the
+`tavily-search/` directory in the client's standard skills location.
 
-### 方式 0（最便携）：ClawHub 一行安装（推荐分发方式）
-
-当这个 skill 发布到 ClawHub 后，用户可以直接运行：
+One commonly supported installer is:
 
 ```bash
-# 首次使用需要登录
-clawhub login
-
-# 默认：安装到“当前目录”的 skills/openclaw-tavily-search
-clawhub install openclaw-tavily-search
-
-# 推荐：显式安装到 OpenClaw workspace（更不容易装错位置）
-clawhub --workdir ~/.openclaw/workspace --dir skills install openclaw-tavily-search
+npx -y skills add Jacky1n7/openclaw-skill-tavily-search --skill tavily-search
 ```
 
-> 提示：如果你已经在 `~/.openclaw/workspace` 目录下，也可以直接运行默认安装命令。
+Clients that cannot load Agent Skills can still call `tavily-search/scripts/tavily_search.py` as a regular
+CLI. Portability requires Python 3.9+, outbound HTTPS access, and support for either loading a
+`SKILL.md` directory or invoking the script; it does not mean every Agent product works without an
+integration mechanism.
 
-### 方式 A：下载打包产物（`.skill`）并解压到 workspace
+## Configure
+
+Create a Tavily API key and expose it to the Agent process:
 
 ```bash
-# 1) 下载
-curl -L \
-  -o /tmp/tavily-search.skill \
-  https://raw.githubusercontent.com/Jacky1n7/openclaw-skill-tavily-search/main/dist/tavily-search.skill
-
-# 2) 安装到 OpenClaw workspace（目录不存在会自动创建）
-mkdir -p ~/.openclaw/workspace/skills/tavily-search
-unzip -o /tmp/tavily-search.skill -d ~/.openclaw/workspace/skills/tavily-search
-
-# 3) 验证
-python3 ~/.openclaw/workspace/skills/tavily-search/scripts/tavily_search.py --query "OpenClaw" --max-results 3 --format md
+export TAVILY_API_KEY="tvly-..."
 ```
 
-### 方式 B：git clone（适合想改代码/发 PR）
+OpenClaw users may alternatively put `TAVILY_API_KEY=...` in `~/.openclaw/.env`. Keep the key out of
+prompts, logs, screenshots, and committed files. Search queries and domain filters are sent to
+Tavily.
+
+For a custom trusted CA bundle, set the standard `SSL_CERT_FILE` environment variable. The script
+also retries certificate verification with `certifi` when that package is already available; it
+never falls back to an unverified TLS connection.
+
+## Use
+
+Run paths relative to the skill directory:
 
 ```bash
-mkdir -p ~/.openclaw/workspace/skills
-cd ~/.openclaw/workspace/skills
+# Stable structured output for agents
+python3 tavily-search/scripts/tavily_search.py \
+  --query "portable Agent Skills specification" \
+  --max-results 5 \
+  --format brave
 
-git clone https://github.com/Jacky1n7/openclaw-skill-tavily-search.git tavily-search-repo
+# News from the last week
+python3 tavily-search/scripts/tavily_search.py \
+  --query "AI agent platform releases" \
+  --topic news \
+  --time-range week \
+  --format brave
 
-# 只把 skill 目录放到 skills/tavily-search
-rm -rf tavily-search
-cp -R tavily-search-repo/skill tavily-search
-
-python3 tavily-search/scripts/tavily_search.py --query "OpenClaw" --max-results 3 --format md
+# Restrict source domains
+python3 tavily-search/scripts/tavily_search.py \
+  --query "Tavily Search API authentication" \
+  --include-domain docs.tavily.com \
+  --format md
 ```
 
----
+Search depths: `basic`, `advanced`, `fast`, `ultra-fast`. Advanced search uses more Tavily credits.
+Topics: `general`, `news`, `finance`. Repeat `--include-domain` or `--exclude-domain` to pass more
+than one domain.
 
-## 🚀 用法
+## Output
 
-### 1) 默认输出（raw JSON）
+- `raw`: `{query, answer?, results:[{title,url,content,score?}]}`
+- `brave`: `{query, answer?, results:[{title,url,snippet,score?}]}`
+- `md`: compact numbered links with snippets
+
+The default result count is 5 and the accepted range is 1-20. Responses larger than 2 MiB are
+rejected before parsing.
+
+## Development
 
 ```bash
-python3 skill/scripts/tavily_search.py --query "OpenClaw 中文社区" --max-results 5
+python3 -m unittest discover -s tests -v
+python3 scripts/build_dist.py
+python3 scripts/build_dist.py --check
 ```
 
-### 2) 稳定结构输出（推荐，brave-like）
-
-输出结构：
-
-```json
-{ "query": "...", "results": [ {"title": "...", "url": "...", "snippet": "..."} ] }
-```
-
-命令：
-
-```bash
-python3 skill/scripts/tavily_search.py --query "multi-agent workflow" --max-results 5 --format brave
-```
-
-### 3) 可读 Markdown 列表
-
-```bash
-python3 skill/scripts/tavily_search.py --query "OpenClaw" --max-results 5 --format md
-```
-
----
-
-## 📦 打包产物（可分发）
-
-> 备注：`.skill` 本质上是一个 zip bundle，适合发到群里/邮件里/Release 里。
-
-仓库 `dist/` 下包含：
-
-- `dist/tavily-search.skill`：打包好的 skill（zip bundle）
-- `dist/tavily-search.manifest.json`：sha256 清单（用于校验完整性）
-
-本地重新打包：
-
-```bash
-rm -f dist/tavily-search.skill
-(cd skill && zip -qr ../dist/tavily-search.skill .)
-```
-
----
-
-## 🧪 输出示例
-
-<details>
-<summary>点击展开</summary>
-
-```text
-1. 标题...
-   https://example.com
-   - 摘要片段...
-```
-
-</details>
-
----
-
-## 🦐 备注（建议实践）
-
-- `--max-results` 建议默认 3–5，够用且省 token。
-- 需要更深覆盖时使用：`--search-depth advanced`。
-
----
+`scripts/build_dist.py` creates deterministic `dist/tavily-search.skill` and manifest files from
+the canonical `tavily-search/` directory. CI verifies Python 3.9 and 3.12 on Linux, macOS, and Windows.
 
 ## License
 
-MIT
+Source code in this repository is available under the [MIT License](LICENSE). ClawHub-hosted copies
+are additionally distributed under ClawHub's registry terms.
