@@ -3,7 +3,7 @@ name: tavily-search
 description: Search the public web through Tavily and return structured results with URLs and snippets. Use when an agent needs current information, source discovery, link lookup, news or finance search, or a fallback for unavailable built-in web search. Do not use for private or authenticated pages.
 compatibility: Requires Python 3.9+, outbound HTTPS access to api.tavily.com, and a Tavily API key.
 metadata:
-  version: "0.2.0"
+  version: 0.2.1
   openclaw:
     requires:
       env:
@@ -59,9 +59,10 @@ Tavily credits; use it only when the task needs deeper relevance. Topics are `ge
 
 ## Configuration
 
-Set `TAVILY_API_KEY` in the agent's environment. OpenClaw installations may also load it from
-`~/.openclaw/.env`. Never print, quote, log, or include the key in generated output. Search queries
-and requested domain filters are sent to Tavily's API.
+Set `TAVILY_API_KEY` in the agent's environment. The host application may load that variable from
+its own credential or environment configuration; the script does not read credential files. Never
+print, quote, log, or include the key in generated output. Search queries and requested domain
+filters are sent to Tavily's API.
 
 ## Output contracts
 
