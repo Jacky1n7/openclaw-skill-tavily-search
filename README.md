@@ -65,9 +65,10 @@ Create a Tavily API key and expose it to the Agent process:
 export TAVILY_API_KEY="tvly-..."
 ```
 
-OpenClaw users may alternatively put `TAVILY_API_KEY=...` in `~/.openclaw/.env`. Keep the key out of
-prompts, logs, screenshots, and committed files. Search queries and domain filters are sent to
-Tavily.
+OpenClaw can load `TAVILY_API_KEY=...` from `~/.openclaw/.env`; other hosts can use their own secret
+or environment configuration. The script itself reads only the injected environment variable and
+does not open credential files. Keep the key out of prompts, logs, screenshots, and committed
+files. Search queries and domain filters are sent to Tavily.
 
 For a custom trusted CA bundle, set the standard `SSL_CERT_FILE` environment variable. The script
 also retries certificate verification with `certifi` when that package is already available; it

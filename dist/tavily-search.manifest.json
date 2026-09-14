@@ -1,15 +1,15 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "files": [
     {
       "path": "SKILL.md",
-      "sha256": "7e658ff64717a014a1b18c7e1d42a7699aba67dc6893f00d1194f99e8b9da7bd",
-      "bytes": 3146
+      "sha256": "d3f1761279ee53cd6d11d5b009d368f7f4c2f97dbc0405a2931aa4e6e6952cef",
+      "bytes": 3220
     },
     {
       "path": "scripts/tavily_search.py",
-      "sha256": "7e47840383eecd1f186b53b58db51159659567f961e11aaf222c220d212907e7",
-      "bytes": 9886
+      "sha256": "f026cee5fbce2a3a2575f64ffe86f0769a6f2377b252516488f64aa1f4390f4c",
+      "bytes": 9233
     }
   ]
 }

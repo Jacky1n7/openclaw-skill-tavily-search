@@ -2,8 +2,6 @@
 import argparse
 import json
 import os
-import pathlib
-import re
 import ssl
 import sys
 import urllib.error
@@ -11,7 +9,7 @@ import urllib.request
 
 TAVILY_URL = "https://api.tavily.com/search"
 MAX_RESPONSE_BYTES = 2 * 1024 * 1024
-USER_AGENT = "tavily-search-agent-skill/0.2.0"
+USER_AGENT = "tavily-search-agent-skill/0.2.1"
 
 
 class TavilySearchError(RuntimeError):
@@ -31,25 +29,7 @@ def configure_console_encoding():
 
 def load_key():
     key = os.environ.get("TAVILY_API_KEY")
-    if key:
-        return key.strip()
-
-    try:
-        env_path = pathlib.Path.home() / ".openclaw" / ".env"
-    except RuntimeError:
-        return None
-    if env_path.exists():
-        try:
-            text = env_path.read_text(encoding="utf-8", errors="ignore")
-        except OSError as error:
-            raise TavilySearchError(f"Unable to read {env_path}: {error}") from error
-        match = re.search(r"^\s*TAVILY_API_KEY\s*=\s*(.+?)\s*$", text, re.MULTILINE)
-        if match:
-            value = match.group(1).strip().strip('"').strip("'")
-            if value:
-                return value
-
-    return None
+    return key.strip() if key and key.strip() else None
 
 
 def _read_bounded(response):
@@ -170,9 +150,7 @@ def tavily_search(
 
     key = load_key()
     if not key:
-        raise TavilySearchError(
-            "Missing TAVILY_API_KEY. Set the environment variable or add it to ~/.openclaw/.env"
-        )
+        raise TavilySearchError("Missing TAVILY_API_KEY environment variable")
 
     payload = {
         "query": query,

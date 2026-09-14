@@ -148,16 +148,10 @@ class TavilySearchTests(unittest.TestCase):
         self.assertIn("https://example.org", tavily.to_markdown(raw))
 
     def test_missing_key_and_empty_query_fail_clearly(self):
-        with mock.patch.dict("os.environ", {}, clear=True):  # noqa: SIM117
-            with mock.patch.object(
-                tavily.pathlib.Path,
-                "home",
-                side_effect=RuntimeError("home is unavailable"),
-            ):
-                with self.assertRaisesRegex(
-                    tavily.TavilySearchError, "Missing TAVILY_API_KEY"
-                ):
-                    tavily.tavily_search("query", 5, False, "basic")
+        with mock.patch.dict("os.environ", {}, clear=True), self.assertRaisesRegex(
+            tavily.TavilySearchError, "Missing TAVILY_API_KEY"
+        ):
+            tavily.tavily_search("query", 5, False, "basic")
         with self.assertRaisesRegex(tavily.TavilySearchError, "must not be empty"):
             tavily.tavily_search("  ", 5, False, "basic")
 
