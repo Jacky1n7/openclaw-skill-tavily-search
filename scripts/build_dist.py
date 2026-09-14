@@ -47,11 +47,11 @@ def build_outputs():
 
     archive_buffer = io.BytesIO()
     with zipfile.ZipFile(
-        archive_buffer, "w", compression=zipfile.ZIP_DEFLATED
+        archive_buffer, "w", compression=zipfile.ZIP_STORED
     ) as archive:
         for path in FILES:
             info = zipfile.ZipInfo(path, date_time=(2026, 1, 1, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, contents[path])
     return archive_buffer.getvalue(), manifest_bytes
