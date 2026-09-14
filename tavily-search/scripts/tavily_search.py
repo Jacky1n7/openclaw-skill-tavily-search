@@ -34,7 +34,10 @@ def load_key():
     if key:
         return key.strip()
 
-    env_path = pathlib.Path.home() / ".openclaw" / ".env"
+    try:
+        env_path = pathlib.Path.home() / ".openclaw" / ".env"
+    except RuntimeError:
+        return None
     if env_path.exists():
         try:
             text = env_path.read_text(encoding="utf-8", errors="ignore")

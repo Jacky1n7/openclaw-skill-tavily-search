@@ -8,8 +8,8 @@
     },
     {
       "path": "scripts/tavily_search.py",
-      "sha256": "cff7537d22af7c9c6e5e2725d30cacc003aa780d4e8ab14d8a2f734dbd9880c5",
-      "bytes": 9828
+      "sha256": "7e47840383eecd1f186b53b58db51159659567f961e11aaf222c220d212907e7",
+      "bytes": 9886
     }
   ]
 }
